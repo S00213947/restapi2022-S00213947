@@ -9,7 +9,6 @@ const cocktailSchema = new mongoose.Schema({
     drinkName: String,
     alcholic: String,
     instructions: String,
-    year: Number,
     ing1: String,
     ing2: String,
     ing3: String,
