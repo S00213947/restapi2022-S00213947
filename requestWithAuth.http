@@ -1,0 +1,38 @@
+### Auth0testing
+# @name loginusingAuth0
+POST https://dev-7gh4ttlz8xd5eek3.eu.auth0.com/oauth/token 
+content-type: application/json
+
+{"client_id":"X2AAVdHcaxVEKP6MiWv9G1anIhPMYLNN",
+"client_secret":"8kLQo6Z7_QOe1gjBd12vvXH64UG6Icw3POcNw5_vbj5-H9iHw0Vs9nCgZpXEDaMv",
+"audience":"cocktails","grant_type":"client_credentials"}
+
+
+###
+GET http://localhost:3000/cocktails
+Authorization: Bearer {{loginusingAuth0.response.body.access_token}}
+
+GET http://localhost:3000/cocktails
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjFEQW1zWXNSMmV2d1dXZGhYak5KWCJ9.eyJpc3MiOiJodHRwczovL2Rldi03Z2g0dHRsejh4ZDVlZWszLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJYMkFBVmRIY2F4VkVLUDZNaVd2OUcxYW5JaFBNWUxOTkBjbGllbnRzIiwiYXVkIjoiY29ja3RhaWxzIiwiaWF0IjoxNjcwODY2MDAwLCJleHAiOjE2NzA5NTI0MDAsImF6cCI6IlgyQUFWZEhjYXhWRUtQNk1pV3Y5RzFhbkloUE1ZTE5OIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.V-6kD3SjJW6WKKZ_6BBp8TcNP1ABtaXbv2thhp5Mt7EVFODJ0Ki-axA6t0Rbf-0Yil1q9Nxhjg2_jJ1YqW6y3XbP84TF0Iqsr1YfqmDyy_oDyVvXGyPFdVq873kWJpe0GlbzRv3HwLBZ5llwFDspW3G63ePix8XrLGIewO0CY9rqhWvWL5-cCfsUdhv3z9ucQ4CX758Ulug4hs9VlxRPbFpfW5UtcLof1Eis-KH9S5YgmilREj5O8d-gwQwY53jogfvaSpEWNvcew7cCw96aiSuybUgJndgoYCbQxPywnKivrnRe9AKEG70FTcEaR_g0t05jEcuo8ylRitEBC1Y4ww
+
+
+
+
+
+
+### login
+# @name loginUsingAuthLocal
+POST http://localhost:3000/auth/local HTTP/1.1
+content-type: application/json
+
+{ "username": "use4",
+"password" : "password1"}
+
+###
+### POST Request for a book with just a title
+## expeted result 201 Created with the id of the book in location and a book returned.
+POST http://localhost:3000/cocktails HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{loginUsingAuthLocal.response.body.accesstoken}}
+
+{ "title" : "a new book from an authenciated"}
