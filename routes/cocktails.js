@@ -2,7 +2,6 @@ const express = require('express');
 const validationMiddleware = require('../middleware/jwtvalidation');
 
 const { Cocktail, ValidateCocktail} = require('../models/cocktails');
-
 const router = express.Router();
 
 

@@ -22,7 +22,7 @@ const cocktailSchema = new mongoose.Schema({
 
 })
 
-function Validatecocktail(cocktail) {
+function ValidateCocktail(cocktail) {
 
    
      const cocktailJoiSchema = Joi.object({
@@ -33,7 +33,12 @@ function Validatecocktail(cocktail) {
                    'any.required': "you fool you forgot the title field"}),
         
         ing1: Joi.string(),
-        measure1: Joi.string()
+        ing2: Joi.string(),
+        ing3: Joi.string(),
+        measure1: Joi.string(),
+        measure2: Joi.string(),
+        measure3: Joi.string(),
+        instructions: Joi.string()
      })
      return cocktailJoiSchema.validate(cocktail);
  }
@@ -42,4 +47,4 @@ function Validatecocktail(cocktail) {
 
 const Cocktail = mongoose.model('cocktail', cocktailSchema)
 
-module.exports = {Cocktail, Validatecocktail}
+module.exports = {Cocktail, ValidateCocktail}
