@@ -8,29 +8,18 @@ const router = express.Router();
 
 
 router.post('/', async (req, res) => {
+  const { error } = ValidateCocktail(req.body);
+  if (error) {
+    return res.status(400).json(error);
+  }
 
- 
-   let result = ValidateCocktail(req.body)
-
-   if (result.error) {
-     res.status(400).json(result.error);
-     return;
-   }
- 
-
-    let cocktail = new Cocktail (req.body);
-    
-    try {
-        cocktail = await cocktail.save();
-        res
-        .location(`${cocktail._id}`)
-        .status(201)
-        .json(cocktail)
-    }
-    catch (error){
-        res.status(500).send('db_error ' + error)
-    }
-
+  let cocktail = new Cocktail(req.body);
+  try {
+      await cocktail.save();
+      res.location(`${cocktail._id}`).status(201).json(cocktail);
+  } catch (error) {
+      res.status(500).json({error: 'Database error', message: error.message});
+  }
 });
 
 
@@ -93,28 +82,23 @@ router.get('/:id', async (req, res) => {
   })
 
   router.put('/:id', async (req, res) => {
-
-    let result = ValidateCocktail(req.body)
-  
-    if (result.error) {
-      res.status(400).json(result.error);
-      return;
+    const { error } = ValidateCocktail(req.body);
+    if (error) {
+      return res.status(400).json(error);
     }
     
+    delete req.body._id;
     try {
-  
       const cocktail = await Cocktail.findByIdAndUpdate(req.params.id, req.body, { new: true });
       if (cocktail) {
-        res.json(cocktail);
+        return res.json(cocktail);
+      } else {
+        return res.status(404).json({error: 'Not found'});
       }
-      else {
-        res.status(404).json('Not found');
-      }
+    } catch (error) {
+      return res.status(404).json({error: 'Not found: id is weird', message: error.message});
     }
-    catch (error) {
-      res.status(404).json('Not found: id is weird' + error);
-    }
-  
-  })
-  
+});
+
+
 module.exports = router

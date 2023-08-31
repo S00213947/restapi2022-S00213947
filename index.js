@@ -23,9 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
 
-app.use('/cocktails', cocktails);
-app.use('/home', home);
-app.use('/users', users);
+
 
 var corsOptions = {
     origin: 'http://localhost:4200',
@@ -33,5 +31,10 @@ var corsOptions = {
   }
 
   app.use( cors(corsOptions));
-  app.use('/cocktails', cors(), (cocktails)); 
+
+  //routes
+  app.use('/cocktails', require('./routes/cocktails'));
+app.use('/home', require('./routes/home'));
+app.use('/users', require('./routes/users'));
+ 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
