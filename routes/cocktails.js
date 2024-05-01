@@ -103,6 +103,7 @@ router.post('/favorites', async (req, res) => {
   } catch (error) {
       console.error('Error saving favorite:', error);
       res.status(500).send('Internal Server Error');
+      
   }
 });
 
