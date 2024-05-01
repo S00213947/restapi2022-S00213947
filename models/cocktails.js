@@ -6,10 +6,20 @@ const Joi = require('joi');
 
 
 const cocktailSchema = new mongoose.Schema({
-    drinkName: String,
-    alcholic: String,
-    instructions: String,
-    ing1: String,
+    idDrink: String,
+    strDrink: String,
+    strAlcoholic: String,
+    strInstructions: String,
+    strIngredient1: String,
+    strIngredient2: String,
+    strIngredient3: String,
+    strIngredient4: String,
+    strMeasure1: String,
+    strMeasure2: String,
+    strMeasure3: String,
+    strMeasure4: String,
+
+    /*ing1: String,
     ing2: String,
     ing3: String,
     ing4: String,
@@ -17,7 +27,7 @@ const cocktailSchema = new mongoose.Schema({
     measure2: String,
     measure3: String,
     measure4: String,
-    
+    */
 
 
 })
@@ -26,7 +36,7 @@ function ValidateCocktail(cocktail) {
 
    
      const cocktailJoiSchema = Joi.object({
-        drinkName: Joi.string()
+        strDrink: Joi.string()
         .min(2)
         .required()
         .messages({'string.empty': "you foool you left title blank",
