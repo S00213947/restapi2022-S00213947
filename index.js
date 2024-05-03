@@ -3,6 +3,7 @@ require('dotenv').config();
 const port = process.env.PORT
 
 const express = require('express')
+const path = require('path');
 const cocktails = require('./routes/cocktails') 
 const mongoose  = require('mongoose');
 const db = require('./database');
