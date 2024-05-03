@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.set('strictQuery', false);
+
 // This should dynamically select the right database based on the NODE_ENV or a specific env variable
 const connectionString = process.env.CONNECTIONSTRING;
 

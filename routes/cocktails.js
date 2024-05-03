@@ -3,8 +3,7 @@ const router = express.Router();
 const validationMiddleware = require('../middleware/jwtvalidation');
 
 const { Cocktail, ValidateCocktail} = require('../models/cocktails');
-
-
+const { Favorite } = require('../models/favorites');
 
 
 
@@ -27,17 +26,12 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
 
   const { strDrink } = req.query;
-
   let filter = {}
 
   if (strDrink) {
     filter.strDrink = { $regex: `${strDrink}`, $options: 'i' };
   }
-
-  
-
   console.table(filter);
-
   const cocktails = await Cocktail.
     find(filter)
 
@@ -61,17 +55,17 @@ router.get('/cocktails/:id', async (req, res) => {
 
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/favorites/:id', async (req, res) => {
   try {
-    const cocktail = await Cocktail.findOneAndDelete({ idDrink: req.params.id });
+    const cocktail = await Favorite.findOneAndDelete({ idDrink: req.params.id });
     if (cocktail) {
-      res.status(204).send();
+      res.status(200).json(cocktail).end();
     } else {
-      res.status(404).send(`Cocktail with ID ${req.params.id} was not found`);
+    return   res.status(404).send(`Cocktail with ID ${req.params.id} was not found`);
     }
   } catch (error) {
     console.error('Error deleting cocktail:', error);
-    res.status(500).send('Internal Server Error');
+   return res.status(500).send('Internal Server Error');
   }
 });
 
@@ -94,22 +88,29 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+
 router.post('/favorites', async (req, res) => {
-  const cocktailData = req.body;
-  const cocktail = new Cocktail(cocktailData);
-  try {
-      await cocktail.save();
-      res.status(201).send(cocktail);
-  } catch (error) {
-      console.error('Error saving favorite:', error);
-      res.status(500).send('Internal Server Error');
-      
+  
+const favoriteData = req.body;
+const favorite = new Favorite(favoriteData);
+try {
+  const cocktail = await Favorite.findOne({ idDrink: req.body.idDrink });
+  if (cocktail) {
+      return res.status(404).send('Cocktail already registered found'); 
   }
+  else{
+    await favorite.save();
+    res.status(201).send(favorite);
+  }
+} catch (error) {
+    console.error('Error saving favorite:', error);
+    res.status(500).send('Internal Server Error');
+}
 });
 
 router.get('/favorites', async (req, res) => {
   try {
-      const favorites = await Cocktail.find(); // Fetches all entries in the Cocktail collection
+      const favorites = await Favorite.find(); // Fetches all entries in the Cocktail collection
       res.json(favorites);
   } catch (error) {
       console.error('Error retrieving favorites:', error);
