@@ -37,4 +37,12 @@ var corsOptions = {
 app.use('/home', require('./routes/home'));
 app.use('/users', require('./routes/users'));
  
+app.use(express.static(path.join(__dirname, 'dist/client-app2022')));
+
+// Send all other requests to the Angular app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/client-app2022/index.html'));
+});
+
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
