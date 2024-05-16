@@ -26,11 +26,17 @@ app.use(cors());
 
 
 
-var corsOptions = {
-    //origin: 'http://localhost:4200',
-   origin: 'https://cocktails-docker.azurewebsites.net',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = ['http://localhost:4200', 'https://cocktails-docker.azurewebsites.net'];
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
   app.use( cors(corsOptions));
 
